@@ -1,0 +1,43 @@
+[
+  {
+    "menuName": "hayat",
+    "ingredients": [
+      {
+        "product": {
+          "id": 1740504258675,
+          "name": "elma",
+          "cost": 1000
+        },
+        "quantity": 50,
+        "unitCost": 50
+      }
+    ],
+    "totalCost": 50,
+    "id": 1740504437535
+  },
+  {
+    "menuName": "kk",
+    "ingredients": [
+      {
+        "product": {
+          "id": 1740504258675,
+          "name": "elma",
+          "cost": 1000
+        },
+        "quantity": 10,
+        "unitCost": 10
+      },
+      {
+        "product": {
+          "id": 1740505940797,
+          "name": "armut",
+          "cost": 25
+        },
+        "quantity": 50,
+        "unitCost": 1.25
+      }
+    ],
+    "totalCost": 11.25,
+    "id": 1740505963332
+  }
+]
