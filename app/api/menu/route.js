@@ -14,3 +14,17 @@ export async function POST(request) {
   saveMenuData(currentData)
   return NextResponse.json(menu)
 }
+
+export async function PUT(request) {
+  const menu = await request.json()
+  const currentData = getMenuData()
+  const index = currentData.findIndex(item => item.id === menu.id)
+  
+  if (index !== -1) {
+    currentData[index] = menu
+    saveMenuData(currentData)
+    return NextResponse.json(menu)
+  }
+  
+  return NextResponse.json({ error: 'Menu not found' }, { status: 404 })
+}

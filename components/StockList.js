@@ -75,9 +75,19 @@ const StockList = ({ products, onAddProduct, onProductUpdate }) => {
                 className="border p-3 rounded-lg bg-white shadow-sm hover:shadow-md transition-shadow"
               >
                 <div className="flex justify-between items-center">
-                  <p className="font-medium">{product.name}</p>
+                  <div className="flex flex-col">
+                    <p className="font-medium">{product.name}</p>
+                    <span className="text-sm text-gray-500">
+                      KDV: %{product.vatRate || 0}
+                    </span>
+                  </div>
                   <div className="flex items-center gap-3">
-                    <p className="text-blue-600 font-semibold">{product.cost.toFixed(2)} TL/kg</p>
+                    <div className="text-right">
+                      <p className="text-blue-600 font-semibold">{product.cost.toFixed(2)} TL/kg</p>
+                      <p className="text-sm text-gray-500">
+                        +KDV: {(product.cost * (1 + (product.vatRate || 0) / 100)).toFixed(2)} TL/kg
+                      </p>
+                    </div>
                     <button
                       onClick={() => {
                         setEditingProduct(product)

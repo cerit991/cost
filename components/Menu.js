@@ -1,15 +1,23 @@
 'use client'
 import React, { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { MdAdd, MdRestaurant, MdShoppingCart, MdSave } from 'react-icons/md'
+import { MdAdd, MdRestaurant, MdSave, MdClose, MdDelete } from 'react-icons/md'
 
-const Menu = ({ products, onAddMenuItem }) => {
+const Menu = ({ products, onAddMenuItem, initialMenu = null, onCancel }) => {
   const [menuName, setMenuName] = useState('')
   const [ingredients, setIngredients] = useState([])
   const [selectedProduct, setSelectedProduct] = useState('')
   const [quantity, setQuantity] = useState('')
   const [totalCost, setTotalCost] = useState(0)
   const [currentUnitCost, setCurrentUnitCost] = useState(0)
+
+  // Load initial menu data if editing
+  useEffect(() => {
+    if (initialMenu) {
+      setMenuName(initialMenu.menuName)
+      setIngredients(initialMenu.ingredients)
+    }
+  }, [initialMenu])
 
   // Calculate current unit cost when product or quantity changes
   useEffect(() => {
@@ -46,19 +54,58 @@ const Menu = ({ products, onAddMenuItem }) => {
     setCurrentUnitCost(0)
   }
 
+  const removeIngredient = (indexToRemove) => {
+    setIngredients(ingredients.filter((_, index) => index !== indexToRemove))
+  }
+
+  const formatPrice = (price) => {
+    return typeof price === 'number' ? price.toFixed(2) : '0.00'
+  }
+
+  const calculateCosts = (ingredients) => {
+    const costs = ingredients.reduce((acc, ing) => {
+      const baseUnitCost = ing.unitCost || 0
+      const vatRate = ing.product.vatRate || 0
+      const vatAmount = baseUnitCost * (vatRate / 100)
+      return {
+        baseTotal: acc.baseTotal + baseUnitCost,
+        vatTotal: acc.vatTotal + vatAmount
+      }
+    }, { baseTotal: 0, vatTotal: 0 })
+
+    return {
+      baseCost: costs.baseTotal,
+      vatAmount: costs.vatTotal,
+      totalCost: costs.baseTotal + costs.vatTotal
+    }
+  }
+
   const handleSubmit = (e) => {
     e.preventDefault()
     if (!menuName || ingredients.length === 0) return
 
-    onAddMenuItem({
+    const costs = calculateCosts(ingredients)
+    const menuData = {
+      ...(initialMenu && { id: initialMenu.id }), // Keep original ID if editing
       menuName,
       ingredients,
-      totalCost
-    })
+      baseCost: costs.baseCost,
+      vatAmount: costs.vatAmount,
+      totalCost: costs.totalCost
+    }
+    
+    onAddMenuItem(menuData)
+  }
 
+  // Reset all states when canceling
+  const handleCancel = () => {
     setMenuName('')
     setIngredients([])
+    setSelectedProduct('')
+    setQuantity('')
     setTotalCost(0)
+    setCurrentUnitCost(0)
+    onCancel?.()
   }
 
   return (
@@ -68,6 +115,19 @@ const Menu = ({ products, onAddMenuItem }) => {
       animate={{ scale: 1 }}
       transition={{ duration: 0.3 }}
     >
+      <div className="flex justify-between items-center mb-4">
+        <h2 className="text-xl font-bold">
+          {initialMenu ? 'Menü Düzenle' : 'Yeni Menü Oluştur'}
+        </h2>
+        {initialMenu && (
+          <button
+            onClick={handleCancel}
+            className="p-2 text-gray-500 hover:text-gray-700"
+          >
+            <MdClose size={20} />
+          </button>
+        )}
+      </div>
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-1 flex items-center">
           <MdRestaurant className="mr-1" /> Menü Adı
@@ -126,35 +186,67 @@ const Menu = ({ products, onAddMenuItem }) => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
         >
-          <div className="flex justify-between items-center mb-2">
+          <div className="flex flex-col gap-2">
             <h3 className="text-lg font-medium text-gray-700">Malzemeler</h3>
-            <span className="text-lg font-semibold text-blue-600">
-              Toplam: {totalCost.toFixed(2)} TL
-            </span>
-          </div>
-          <div className="space-y-2">
-            {ingredients.map((ing, index) => (
-              <div key={index} className="flex justify-between items-center bg-white p-3 rounded-md shadow-sm">
-                <span className="font-medium">{ing.product.name}</span>
-                <span className="text-gray-600">
-                  {ing.quantity} gr/ml - {ing.unitCost.toFixed(2)} TL
-                </span>
-              </div>
-            ))}
+            <div className="space-y-2">
+              {ingredients.map((ing, index) => (
+                <div 
+                  key={index} 
+                  className="flex justify-between items-center bg-white p-3 rounded-md shadow-sm hover:shadow-md transition-all group"
+                >
+                  <span className="font-medium">{ing.product.name}</span>
+                  <div className="flex items-center gap-4">
+                    <span className="text-gray-600">
+                      {ing.quantity} gr/ml - {ing.unitCost.toFixed(2)} TL
+                    </span>
+                    <motion.button
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.9 }}
+                      onClick={() => removeIngredient(index)}
+                      className="text-red-500 opacity-0 group-hover:opacity-100 transition-opacity"
+                      title="Malzemeyi Sil"
+                    >
+                      <MdDelete size={20} />
+                    </motion.button>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className="border-t pt-2 mt-2">
+              <p className="text-gray-600">
+                KDV Hariç: {formatPrice(calculateCosts(ingredients).baseCost)} TL
+              </p>
+              <p className="text-gray-600">
+                KDV Tutarı: {formatPrice(calculateCosts(ingredients).vatAmount)} TL
+              </p>
+              <p className="text-lg font-semibold text-blue-600">
+                Toplam (KDV Dahil): {formatPrice(calculateCosts(ingredients).totalCost)} TL
+              </p>
+            </div>
           </div>
         </motion.div>
       )}
 
-      <motion.button 
-        onClick={handleSubmit}
-        disabled={!menuName || ingredients.length === 0}
-        whileHover={{ scale: 1.02 }}
-        whileTap={{ scale: 0.98 }}
-        className="w-full bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-all disabled:bg-gray-400 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-      >
-        <MdSave size={20} />
-        Menü Oluştur
-      </motion.button>
+      <div className="flex gap-2">
+        {initialMenu && (
+          <motion.button
+            onClick={handleCancel}
+            className="flex-1 px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600"
+          >
+            İptal
+          </motion.button>
+        )}
+        <motion.button 
+          onClick={handleSubmit}
+          disabled={!menuName || ingredients.length === 0}
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+          className="flex-1 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-all disabled:bg-gray-400 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+        >
+          <MdSave size={20} />
+          {initialMenu ? 'Güncelle' : 'Menü Oluştur'}
+        </motion.button>
+      </div>
     </motion.div>
   )
 }

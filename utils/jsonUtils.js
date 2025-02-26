@@ -93,3 +93,19 @@ export const updateMenuPrices = (productId, newCost) => {
     return null
   }
 }
+
+export const updateMenuData = (menuId, updates) => {
+  try {
+    const data = getMenuData()
+    const index = data.findIndex(item => item.id === menuId)
+    if (index !== -1) {
+      data[index] = { ...data[index], ...updates }
+      saveMenuData(data)
+      return data[index]
+    }
+    return null
+  } catch (error) {
+    console.error('Error updating menu data:', error)
+    return null
+  }
+}
