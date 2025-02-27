@@ -1,1 +1,206 @@
-[]
+[
+    {
+      "id": 1740652942129,
+      "name": "Dana Bonfile",
+      "cost": 1,
+      "vatRate": 1
+    },
+    {
+      "id": 1740652961777,
+      "name": "Şoklu kuşkonmaz",
+      "cost": 1,
+      "vatRate": 1
+    },
+    {
+      "id": 1740653012588,
+      "name": "Kuzu incik",
+      "cost": 1,
+      "vatRate": 1
+    },
+    {
+      "id": 1740653024083,
+      "name": "Dana antrikot",
+      "cost": 1,
+      "vatRate": 1
+    },
+    {
+      "id": 1740653030038,
+      "name": "Dana kıyma",
+      "cost": 1,
+      "vatRate": 1
+    },
+    {
+      "id": 1740653064022,
+      "name": "Sucuk",
+      "cost": 1,
+      "vatRate": 1
+    },
+    {
+      "id": 1740653099936,
+      "name": "Kuzu Pirzola ",
+      "cost": 1,
+      "vatRate": 1
+    },
+    {
+      "id": 1740653122918,
+      "name": "Tavuk But",
+      "cost": 75,
+      "vatRate": 1
+    },
+    {
+      "id": 1740653131265,
+      "name": "Tavuk Göğüs",
+      "cost": 1,
+      "vatRate": 1
+    },
+    {
+      "id": 1740653145259,
+      "name": "Tavuk Baget",
+      "cost": 1,
+      "vatRate": 1
+    },
+    {
+      "id": 1740653157588,
+      "name": "Somon Fileto",
+      "cost": 1,
+      "vatRate": 1
+    },
+    {
+      "id": 1740653165088,
+      "name": "Levrek 4/6",
+      "cost": 1,
+      "vatRate": 1
+    },
+    {
+      "id": 1740653179001,
+      "name": "Çupra fileto",
+      "cost": 1,
+      "vatRate": 1
+    },
+    {
+      "id": 1740653193622,
+      "name": "Tüp Kalamar",
+      "cost": 1,
+      "vatRate": 1
+    },
+    {
+      "id": 1740653217353,
+      "name": "Karides 4/6 ",
+      "cost": 1,
+      "vatRate": 1
+    },
+    {
+      "id": 1740653231138,
+      "name": "Karides 16/20",
+      "cost": 1,
+      "vatRate": 1
+    },
+    {
+      "id": 1740653251257,
+      "name": "Karides 8/12",
+      "cost": 1,
+      "vatRate": 1
+    },
+    {
+      "id": 1740653261790,
+      "name": "Tuna Saki",
+      "cost": 1,
+      "vatRate": 1
+    },
+    {
+      "id": 1740653267740,
+      "name": "Ahtapot",
+      "cost": 1,
+      "vatRate": 1
+    },
+    {
+      "id": 1740653279524,
+      "name": "İç midye ",
+      "cost": 1,
+      "vatRate": 1
+    },
+    {
+      "id": 1740653303592,
+      "name": "Siyah kabuklu midye ",
+      "cost": 1,
+      "vatRate": 1
+    },
+    {
+      "id": 1740653341567,
+      "name": "Levrek 8/1",
+      "cost": 1,
+      "vatRate": 1
+    },
+    {
+      "id": 1740653350637,
+      "name": "Çupra 8/1",
+      "cost": 1,
+      "vatRate": 1
+    },
+    {
+      "id": 1740653419183,
+      "name": "Buratta",
+      "cost": 1,
+      "vatRate": 1
+    },
+    {
+      "id": 1740654318701,
+      "name": "Beybi Kabak",
+      "cost": 1,
+      "vatRate": 1
+    },
+    {
+      "id": 1740654331487,
+      "name": "Beybi Havuç",
+      "cost": 1,
+      "vatRate": 1
+    },
+    {
+      "id": 1740654396826,
+      "name": "Tereyağ",
+      "cost": 362.5,
+      "vatRate": 1
+    },
+    {
+      "id": 1740654594969,
+      "name": "Süt yağlı Yörükoğlu",
+      "cost": 37.5,
+      "vatRate": 1
+    },
+    {
+      "id": 1740654779565,
+      "name": "Segafrado Intermezzo",
+      "cost": 920,
+      "vatRate": 10
+    },
+    {
+      "id": 1740655013878,
+      "name": "SüzmeYoğurt Yörükoğlu",
+      "cost": 100,
+      "vatRate": 1
+    },
+    {
+      "id": 1740655060786,
+      "name": "Yarım yağlı yoğurt Yörükoğlu ",
+      "cost": 37,
+      "vatRate": 1
+    },
+    {
+      "id": 1740657167700,
+      "name": "Tavuk Göğüs Derim",
+      "cost": 175,
+      "vatRate": 1
+    },
+    {
+      "id": 1740657201665,
+      "name": "Izgara Tava Derim",
+      "cost": 180,
+      "vatRate": 1
+    },
+    {
+      "id": 1740657220544,
+      "name": "Baget Derim",
+      "cost": 98,
+      "vatRate": 1
+    }
+  ]

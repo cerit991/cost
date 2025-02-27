@@ -54,4 +54,8 @@ Daha fazla detay için [Next.js yayınlama dokümantasyonunu](https://nextjs.org
 - Yeni sayfa eklemek için `app` klasörüne yeni bir dosya ekleyin
 - `public` klasörüne statik dosyalarınızı yerleştirin
 - Next.js, API Route'ları sayesinde sunucu taraflı fonksiyonlar oluşturmanıza olanak tanır
+<<<<<<< HEAD
 - Componentleri `components` klasöründe organize edin
+=======
+- Componentleri `components` klasöründe organize edin
+>>>>>>> faa45af42dbc4c0de61d8054a590bfc087bc8ec2

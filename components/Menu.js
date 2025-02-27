@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { MdAdd, MdRestaurant, MdSave, MdClose, MdDelete } from 'react-icons/md'
+import { BiSearch } from 'react-icons/bi'
 
 const Menu = ({ products, onAddMenuItem, initialMenu = null, onCancel }) => {
   const [menuName, setMenuName] = useState('')
@@ -10,6 +11,7 @@ const Menu = ({ products, onAddMenuItem, initialMenu = null, onCancel }) => {
   const [quantity, setQuantity] = useState('')
   const [totalCost, setTotalCost] = useState(0)
   const [currentUnitCost, setCurrentUnitCost] = useState(0)
+  const [productSearch, setProductSearch] = useState('')
 
   // Load initial menu data if editing
   useEffect(() => {
@@ -37,6 +39,11 @@ const Menu = ({ products, onAddMenuItem, initialMenu = null, onCancel }) => {
     const newTotal = ingredients.reduce((sum, ing) => sum + ing.unitCost, 0)
     setTotalCost(newTotal)
   }, [ingredients])
+
+  // Filter products based on search
+  const filteredProducts = products.filter(product =>
+    product.name.toLowerCase().includes(productSearch.toLowerCase())
+  )
 
   // Update ingredient handlers
   const addIngredient = (e) => {
@@ -142,18 +149,31 @@ const Menu = ({ products, onAddMenuItem, initialMenu = null, onCancel }) => {
       </div>
 
       <motion.form onSubmit={addIngredient} className="grid grid-cols-1 md:grid-cols-3 gap-3">
-        <select
-          value={selectedProduct}
-          onChange={(e) => setSelectedProduct(e.target.value)}
-          className="col-span-2 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-        >
-          <option value="">Malzeme Seçin</option>
-          {products.map(product => (
-            <option key={product.id} value={product.id}>
-              {product.name} - {product.cost} TL/kg
-            </option>
-          ))}
-        </select>
+        <div className="col-span-2 space-y-2">
+          <div className="relative">
+            <BiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
+            <input
+              type="text"
+              placeholder="Malzeme ara..."
+              value={productSearch}
+              onChange={(e) => setProductSearch(e.target.value)}
+              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            />
+          </div>
+          <select
+            value={selectedProduct}
+            onChange={(e) => setSelectedProduct(e.target.value)}
+            size={5}
+            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 overflow-auto"
+          >
+            <option value="">Malzeme Seçin</option>
+            {filteredProducts.map(product => (
+              <option key={product.id} value={product.id}>
+                {product.name} - {product.cost} TL/kg (KDV: %{product.vatRate || 0})
+              </option>
+            ))}
+          </select>
+        </div>
         <div className="flex gap-2">
           <div className="flex-1 relative">
             <input

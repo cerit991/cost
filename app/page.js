@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { MdInventory, MdRestaurantMenu } from 'react-icons/md'
+import { BiSolidFoodMenu } from "react-icons/bi"
 import StockList from '@/components/StockList'
 import MenuList from '@/components/MenuList'
 
@@ -59,7 +60,8 @@ const Page = () => {
         className="bg-white shadow-lg"
       >
         <div className="container mx-auto px-4 py-6">
-          <h1 className="text-3xl font-bold text-gray-800">
+          <h1 className="text-3xl font-bold text-gray-800 flex items-center gap-3">
+            <BiSolidFoodMenu className="text-blue-600" size={36} />
             Restaurant Maliyet Yönetimi
           </h1>
         </div>
