@@ -1,1 +1,79 @@
-[]
+[
+  {
+    "id": 1740680140068,
+    "menuName": "ssssss",
+    "ingredients": [
+      {
+        "product": {
+          "id": 1740652961777,
+          "name": "Şoklu kuşkonmaz",
+          "cost": 1,
+          "vatRate": 1
+        },
+        "quantity": 1111,
+        "unitCost": 1.111
+      }
+    ],
+    "baseCost": 1.111,
+    "vatAmount": 0.01111,
+    "totalCost": 1.12211
+  },
+  {
+    "menuName": "denmee",
+    "ingredients": [
+      {
+        "product": {
+          "id": 1740653012588,
+          "name": "Kuzu incik",
+          "cost": 1,
+          "vatRate": 1
+        },
+        "quantity": 250,
+        "unitCost": 0.25
+      },
+      {
+        "product": {
+          "id": 1740653251257,
+          "name": "Karides 8/12",
+          "cost": 1,
+          "vatRate": 1
+        },
+        "quantity": 350,
+        "unitCost": 0.35000000000000003
+      },
+      {
+        "product": {
+          "id": 1740653350637,
+          "name": "Çupra 8/1",
+          "cost": 1,
+          "vatRate": 1
+        },
+        "quantity": 250,
+        "unitCost": 0.25
+      }
+    ],
+    "baseCost": 0.8500000000000001,
+    "vatAmount": 0.0085,
+    "totalCost": 0.8585,
+    "id": 1740680569082
+  },
+  {
+    "menuName": "cerit",
+    "ingredients": [
+      {
+        "product": {
+          "id": 1740652942129,
+          "name": "Dana Bonfile",
+          "cost": 1,
+          "vatRate": 1
+        },
+        "quantity": 1250,
+        "unitCost": 1.25
+      }
+    ],
+    "baseCost": 1.25,
+    "vatAmount": 0.0125,
+    "totalCost": 1.2625,
+    "id": 1740680721984
+  }
+]

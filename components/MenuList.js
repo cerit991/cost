@@ -1,14 +1,18 @@
 'use client'
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { BiSearch, BiEdit } from 'react-icons/bi'
+import { MdPictureAsPdf } from 'react-icons/md'
+import { generatePDF } from '@react-pdf/renderer'
 import Menu from './Menu'
+import PdfButton from './Pdf'
 
 const MenuList = ({ products }) => {
   const [menuItems, setMenuItems] = useState([])
   const [searchQuery, setSearchQuery] = useState('')
   const [loading, setLoading] = useState(true)
   const [editingMenu, setEditingMenu] = useState(null)
+  const menuListRef = useRef(null)
 
   useEffect(() => {
     fetchMenus()
@@ -98,6 +102,21 @@ const MenuList = ({ products }) => {
     }
   }
 
+  const generateMenuPDF = async () => {
+    try {
+      const { toPDF } = await import('react-to-pdf')
+      await toPDF(menuListRef, {
+        filename: 'menu-listesi.pdf',
+        page: {
+          margin: 20,
+          format: 'A4'
+        }
+      })
+    } catch (error) {
+      console.error('PDF oluşturma hatası:', error)
+    }
+  }
+
   const filteredMenuItems = menuItems.filter(item =>
     item.menuName.toLowerCase().includes(searchQuery.toLowerCase())
   )
@@ -106,9 +125,12 @@ const MenuList = ({ products }) => {
     <div className="space-y-6">
       {!editingMenu ? (
         <>
-          <Menu onAddMenuItem={addMenuItem} products={products} />
+          <div className="flex justify-between items-center">
+            <Menu onAddMenuItem={addMenuItem} products={products} />
+            <PdfButton menus={menuItems} />
+          </div>
           
-          <div className="mt-6">
+          <div ref={menuListRef} className="mt-6 bg-white p-4 rounded-lg">
             <div className="flex items-center space-x-2 mb-4">
               <h2 className="text-xl font-semibold">Menü Listesi</h2>
               <div className="flex-1 relative">
@@ -141,7 +163,7 @@ const MenuList = ({ products }) => {
                       className="border p-3 rounded-lg bg-white shadow-sm hover:shadow-md transition-shadow"
                     >
                       <div className="flex justify-between items-center mb-2">
-                        <h3 className="font-bold">{item.menuName || 'İsimsiz Menü'}</h3>
+                        <h3 className="font-bold text-lg">{item.menuName || 'İsimsiz Menü'}</h3>
                         <button
                           onClick={() => handleEditMenu(item)}
                           className="p-2 text-gray-600 hover:text-blue-600 transition-colors"
@@ -149,28 +171,39 @@ const MenuList = ({ products }) => {
                           <BiEdit size={20} />
                         </button>
                       </div>
-                      <div className="space-y-1">
-                        {(item.ingredients || []).map((ing, idx) => {
-                          const { name, quantity, unitCost, vatRate } = getIngredientInfo(ing);
-                          return (
-                            <p key={idx}>
-                              {name} - {quantity} gr/ml - 
-                              {formatPrice(unitCost)} TL
-                              <span className="text-gray-500 text-sm">
-                                (KDV: %{vatRate})
-                              </span>
-                            </p>
-                          );
-                        })}
-                        <div className="border-t pt-2 mt-2">
-                          <p className="text-gray-600">
+                      <div className="space-y-2">
+                        <table className="w-full">
+                          <thead>
+                            <tr className="border-b">
+                              <th className="text-left py-2">Malzeme</th>
+                              <th className="text-right">Miktar</th>
+                              <th className="text-right">Birim Fiyat</th>
+                              <th className="text-right">KDV</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {(item.ingredients || []).map((ing, idx) => {
+                              const { name, quantity, unitCost, vatRate } = getIngredientInfo(ing)
+                              return (
+                                <tr key={idx} className="border-b">
+                                  <td className="py-2">{name}</td>
+                                  <td className="text-right">{quantity} gr/ml</td>
+                                  <td className="text-right">{formatPrice(unitCost)} TL</td>
+                                  <td className="text-right">%{vatRate}</td>
+                                </tr>
+                              )
+                            })}
+                          </tbody>
+                        </table>
+                        <div className="border-t pt-2 mt-2 space-y-1">
+                          <p className="text-right text-gray-600">
                             KDV Hariç: {formatPrice(item.baseCost)} TL
                           </p>
-                          <p className="text-gray-600">
+                          <p className="text-right text-gray-600">
                             KDV Tutarı: {formatPrice(item.vatAmount)} TL
                           </p>
-                          <p className="font-semibold text-blue-600">
-                            Toplam (KDV Dahil): {formatPrice(item.totalCost)} TL
+                          <p className="text-right font-semibold text-xl text-blue-600">
+                            Toplam: {formatPrice(item.totalCost)} TL
                           </p>
                         </div>
                       </div>

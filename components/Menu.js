@@ -102,16 +102,27 @@ const Menu = ({ products, onAddMenuItem, initialMenu = null, onCancel }) => {
     }
     
     onAddMenuItem(menuData)
+    
+    // Reset form after successful submission (only if not editing)
+    if (!initialMenu) {
+      resetForm()
+    }
   }
 
-  // Reset all states when canceling
-  const handleCancel = () => {
+  // New reset function to clear all states
+  const resetForm = () => {
     setMenuName('')
     setIngredients([])
     setSelectedProduct('')
     setQuantity('')
     setTotalCost(0)
     setCurrentUnitCost(0)
+    setProductSearch('')
+  }
+
+  // Update handleCancel to use resetForm
+  const handleCancel = () => {
+    resetForm()
     onCancel?.()
   }
 
