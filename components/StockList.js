@@ -2,13 +2,14 @@
 import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { BiSearch, BiEdit } from 'react-icons/bi'
-import { MdClose, MdSave } from 'react-icons/md'
+import { MdClose, MdSave, MdDelete } from 'react-icons/md'
 import Stock from './Stock'
 
 const StockList = ({ products, onAddProduct, onProductUpdate }) => {
   const [searchQuery, setSearchQuery] = useState('')
   const [editingProduct, setEditingProduct] = useState(null)
   const [newPrice, setNewPrice] = useState('')
+  const [deletingProduct, setDeletingProduct] = useState(null)
 
   const updateProductPrice = async (productId, newPrice) => {
     try {
@@ -28,6 +29,21 @@ const StockList = ({ products, onAddProduct, onProductUpdate }) => {
       }
     } catch (error) {
       console.error('Error updating price:', error)
+    }
+  }
+
+  const deleteProduct = async (productId) => {
+    try {
+      const response = await fetch(`/api/stock?id=${productId}`, {
+        method: 'DELETE'
+      })
+
+      if (response.ok) {
+        await onProductUpdate() // Refresh product list
+        setDeletingProduct(null)
+      }
+    } catch (error) {
+      console.error('Error deleting product:', error)
     }
   }
 
@@ -88,15 +104,25 @@ const StockList = ({ products, onAddProduct, onProductUpdate }) => {
                         +KDV: {(product.cost * (1 + (product.vatRate || 0) / 100)).toFixed(2)} TL/kg
                       </p>
                     </div>
-                    <button
-                      onClick={() => {
-                        setEditingProduct(product)
-                        setNewPrice(product.cost.toString())
-                      }}
-                      className="p-2 text-gray-600 hover:text-blue-600 transition-colors"
-                    >
-                      <BiEdit size={20} />
-                    </button>
+                    <div className="flex gap-2">
+                      <button
+                        onClick={() => {
+                          setEditingProduct(product)
+                          setNewPrice(product.cost.toString())
+                        }}
+                        className="p-2 text-gray-600 hover:text-blue-600 transition-colors"
+                        title="Düzenle"
+                      >
+                        <BiEdit size={20} />
+                      </button>
+                      <button
+                        onClick={() => setDeletingProduct(product)}
+                        className="p-2 text-gray-600 hover:text-red-600 transition-colors"
+                        title="Sil"
+                      >
+                        <MdDelete size={20} />
+                      </button>
+                    </div>
                   </div>
                 </div>
               </motion.div>
@@ -169,6 +195,45 @@ const StockList = ({ products, onAddProduct, onProductUpdate }) => {
                   </button>
                 </div>
               </form>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Delete Confirmation Modal */}
+      <AnimatePresence>
+        {deletingProduct && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+          >
+            <motion.div
+              initial={{ scale: 0.95 }}
+              animate={{ scale: 1 }}
+              exit={{ scale: 0.95 }}
+              className="bg-white p-6 rounded-xl shadow-xl w-full max-w-md"
+            >
+              <h3 className="text-lg font-semibold mb-4">Ürünü Sil</h3>
+              <p className="text-gray-600 mb-4">
+                "{deletingProduct.name}" ürününü silmek istediğinizden emin misiniz? 
+                Bu işlem geri alınamaz ve bu ürünü içeren menüler de güncellenecektir.
+              </p>
+              <div className="flex justify-end gap-2">
+                <button
+                  onClick={() => setDeletingProduct(null)}
+                  className="px-4 py-2 text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50"
+                >
+                  İptal
+                </button>
+                <button
+                  onClick={() => deleteProduct(deletingProduct.id)}
+                  className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700"
+                >
+                  Sil
+                </button>
+              </div>
             </motion.div>
           </motion.div>
         )}

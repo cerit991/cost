@@ -1,4 +1,4 @@
-import { getStockData, saveStockData, updateStockData, updateMenuPrices } from '@/utils/jsonUtils'
+import { getStockData, saveStockData, updateStockData, updateMenuPrices, deleteStockItem, removeProductFromMenus } from '@/utils/jsonUtils'
 import { NextResponse } from 'next/server'
 
 export async function GET() {
@@ -22,5 +22,23 @@ export async function PUT(request) {
     updateMenuPrices(id, updates.cost)
     return NextResponse.json(updatedProduct)
   }
+  return NextResponse.json({ error: 'Product not found' }, { status: 404 })
+}
+
+export async function DELETE(request) {
+  const { searchParams } = new URL(request.url)
+  const id = parseInt(searchParams.get('id'))
+  
+  if (!id) {
+    return NextResponse.json({ error: 'ID is required' }, { status: 400 })
+  }
+
+  const deleted = deleteStockItem(id)
+  if (deleted) {
+    // Remove product from all menus
+    removeProductFromMenus(id)
+    return NextResponse.json({ success: true })
+  }
+  
   return NextResponse.json({ error: 'Product not found' }, { status: 404 })
 }

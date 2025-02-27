@@ -4,7 +4,7 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "Restaurant Maliyet Yönetimi",
+  title: "Restaurant Maliyet/Cost Hesaplama",
   description: "Restaurant maliyet ve menü yönetim sistemi",
 };
 

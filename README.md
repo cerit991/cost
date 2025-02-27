@@ -1,36 +1,57 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 🚀 Next.js Proje Rehberi
 
-## Getting Started
+Bu modern web uygulaması [Next.js](https://nextjs.org) altyapısı kullanılarak [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) ile oluşturulmuştur.
 
-First, run the development server:
+## ⚡ Hızlı Başlangıç
+
+Geliştirme sunucusunu başlatmak için:
 
 ```bash
 npm run dev
-# or
+# alternatif olarak
 yarn dev
-# or
+# veya
 pnpm dev
-# or
+# veya
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Tarayıcınızda [http://localhost:3000](http://localhost:3000) adresini açarak uygulamanızı görüntüleyebilirsiniz.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+`app/page.js` dosyasını düzenleyerek sayfayı özelleştirebilirsiniz. Dosyayı kaydettiğinizde sayfa otomatik olarak güncellenir.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Bu proje, Vercel için tasarlanmış modern [Geist](https://vercel.com/font) yazı tipini [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) modülü ile otomatik olarak optimize eder ve yükler.
 
-## Learn More
+## 📚 Daha Fazla Bilgi
 
-To learn more about Next.js, take a look at the following resources:
+Next.js hakkında daha fazla bilgi edinmek için:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- [Next.js Dokümantasyonu](https://nextjs.org/docs) - Next.js özellikleri ve API'si hakkında kapsamlı bilgiler
+- [Next.js Öğrenme Platformu](https://nextjs.org/learn) - interaktif Next.js eğitimleri
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Next.js'e katkıda bulunmak isterseniz [Next.js GitHub deposunu](https://github.com/vercel/next.js) ziyaret edebilirsiniz - geri bildirimleriniz ve katkılarınız memnuniyetle karşılanır!
 
-## Deploy on Vercel
+## 🌐 Vercel ile Yayınlama
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Next.js uygulamanızı yayınlamanın en kolay yolu, Next.js'in yaratıcıları tarafından geliştirilen [Vercel Platformu](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) kullanmaktır.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Daha fazla detay için [Next.js yayınlama dokümantasyonunu](https://nextjs.org/docs/app/building-your-application/deploying) inceleyebilirsiniz.
+
+## 🛠️ Proje Yapısı
+
+```
+/
+├── app/            # Uygulama dosyaları
+│   └── page.js     # Ana sayfa bileşeni
+├── public/         # Statik dosyalar
+├── styles/         # CSS dosyaları
+├── components/     # Tekrar kullanılabilir bileşenler
+└── package.json    # Proje bağımlılıkları
+```
+
+## 💡 İpuçları
+
+- Yeni sayfa eklemek için `app` klasörüne yeni bir dosya ekleyin
+- `public` klasörüne statik dosyalarınızı yerleştirin
+- Next.js, API Route'ları sayesinde sunucu taraflı fonksiyonlar oluşturmanıza olanak tanır
+- Componentleri `components` klasöründe organize edin

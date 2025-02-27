@@ -109,3 +109,31 @@ export const updateMenuData = (menuId, updates) => {
     return null
   }
 }
+
+export const deleteStockItem = (productId) => {
+  try {
+    const data = getStockData()
+    const newData = data.filter(item => item.id !== productId)
+    saveStockData(newData)
+    return true
+  } catch (error) {
+    console.error('Error deleting stock item:', error)
+    return false
+  }
+}
+
+export const removeProductFromMenus = (productId) => {
+  try {
+    const menus = getMenuData()
+    const updatedMenus = menus.map(menu => ({
+      ...menu,
+      ingredients: menu.ingredients.filter(ing => ing.product.id !== productId),
+    })).filter(menu => menu.ingredients.length > 0) // Remove empty menus
+    
+    saveMenuData(updatedMenus)
+    return true
+  } catch (error) {
+    console.error('Error updating menus after product deletion:', error)
+    return false
+  }
+}
